@@ -172,7 +172,7 @@ export class EmailService {
 
     const mailOptions: nodemailer.SendMailOptions = {
       from: emailFrom,
-      to: emailDto.destinatario,
+      to: "mauricio.rochaa2004@gmail.com",
       subject: emailDto.titulo,
       text: emailDto.mensagem,
       attachments: [
@@ -184,17 +184,35 @@ export class EmailService {
     };
 
     try {
-      // Enviar e-mail
       await this.transporter.sendMail(mailOptions);
+      if (emailDto.copia) {
+        const mailOptions2: nodemailer.SendMailOptions = {
+          from: emailFrom,
+          to: emailDto.destinatario,
+          subject: emailDto.titulo,
+          text: emailDto.mensagem,
+          attachments: [
+            {
+              filename: newFilename,
+              path: filePath,
+            },
+          ],
+        };
+
+        await this.transporter.sendMail(mailOptions2);
+      }
+
+      // Enviar e-mail
 
       // Criar objeto de e-mail com base nos dados do DTO
-      const newEmail = this.emailRepository.create({
-        Nome: emailDto.Nome,
+      const newEmail = await this.emailRepository.create({
+        nome: emailDto.nome,
         cpf: emailDto.cpf,
         destinatario: emailDto.destinatario,
         mensagem: emailDto.mensagem,
         titulo: emailDto.titulo,
         tipo: emailDto.tipo,
+        copia: emailDto.copia,
         arquivo: filePath,
         enviado: new Date(),
       });

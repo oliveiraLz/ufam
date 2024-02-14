@@ -13,6 +13,7 @@ export class CreateEmailTable1707486372544 implements MigrationInterface {
         mensagem VARCHAR,
         titulo VARCHAR NOT NULL,
         tipo VARCHAR NOT NULL,
+        copia BOOLEAN NOT NULL,
         enviado TIMESTAMP ,
         created_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT now() NOT NULL,
         updated_at TIMESTAMP,

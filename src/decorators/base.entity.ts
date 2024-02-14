@@ -1,10 +1,10 @@
 import { CreateDateColumn, DeleteDateColumn, UpdateDateColumn } from "typeorm";
 
 export class Base {
-  @CreateDateColumn({ name: "create_at", type: "timestamp" })
+  @CreateDateColumn({ name: "created_at", type: "timestamp" })
   createdAt: Date;
 
-  @UpdateDateColumn({ name: "update_at", type: "timestamp" })
+  @UpdateDateColumn({ name: "updated_at", type: "timestamp" })
   updatedAt: Date;
 
   @DeleteDateColumn({ name: "deleted_at", type: "timestamp" })

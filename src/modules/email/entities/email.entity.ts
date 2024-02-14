@@ -9,7 +9,7 @@ export class Email extends Base {
   id: string;
 
   @Column({ nullable: false })
-  Nome: string;
+  nome: string;
 
   @Column({ nullable: true })
   cpf: string;
@@ -25,6 +25,9 @@ export class Email extends Base {
 
   @Column({ nullable: false })
   tipo: string;
+
+  @Column({ nullable: false })
+  copia: boolean;
 
   @OneToMany(() => Anexo, (anexo) => anexo.email)
   anexo: Anexo[];
