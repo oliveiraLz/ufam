@@ -131,6 +131,8 @@ export class EmailService {
     const emailLogin = await this.parametrosRepository.pegarValor("EMAIL_LOGIN");
     const emailPassword = await this.parametrosRepository.pegarValor("EMAIL_PASSWORD");
     const emailFrom = await this.parametrosRepository.pegarValor("EMAIL_FROM");
+    let emailBodyCandidato = await this.parametrosRepository.pegarValor("EMAIL_BODY");
+    let emailBodyUfam = await this.parametrosRepository.pegarValor("EMAIL_BODY_UFAM");
 
     this.transporter = nodemailer.createTransport({
       host: emailHost,
@@ -170,11 +172,16 @@ export class EmailService {
     // 5. Salvar o arquivo na pasta usando async/await
     await fs.promises.writeFile(filePath, anexo.buffer);
 
+    emailBodyUfam = emailBodyUfam
+      .replace("##NOME##", emailDto.nome)
+      .replace("##CPF##", emailDto.cpf)
+      .replace("##MENSAGEM##", emailDto.mensagem)
+      .replace("##TIPO##", emailDto.tipo);
     const mailOptions: nodemailer.SendMailOptions = {
       from: emailFrom,
       to: "mauricio.rochaa2004@gmail.com",
       subject: emailDto.titulo,
-      text: emailDto.mensagem,
+      html: emailBodyUfam,
       attachments: [
         {
           filename: newFilename,
@@ -184,13 +191,19 @@ export class EmailService {
     };
 
     try {
+      emailBodyCandidato = emailBodyCandidato
+        .replace("##NOME##", emailDto.nome)
+        .replace("###NOME###", emailDto.nome)
+        .replace("##CPF##", emailDto.cpf)
+        .replace("##MENSAGEM##", emailDto.mensagem)
+        .replace("##TIPO##", emailDto.tipo);
       await this.transporter.sendMail(mailOptions);
       if (emailDto.copia) {
         const mailOptions2: nodemailer.SendMailOptions = {
           from: emailFrom,
           to: emailDto.destinatario,
           subject: emailDto.titulo,
-          text: emailDto.mensagem,
+          html: emailBodyCandidato,
           attachments: [
             {
               filename: newFilename,
