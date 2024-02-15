@@ -30,7 +30,7 @@ export class Email extends Base {
   copia: boolean;
 
   @OneToMany(() => Anexo, (anexo) => anexo.email)
-  anexo: Anexo[];
+  anexo: Anexo;
 
   @Column({ type: "timestamp" })
   enviado: Date;

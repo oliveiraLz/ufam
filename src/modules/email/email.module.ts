@@ -6,9 +6,10 @@ import { AuthModule } from "../acesso/auth/auth.module";
 import { EmailRepository } from "./email.repository";
 import { EmailProviders } from "./email.providers";
 import { ParametrosModule } from "../parametros/parametros.module";
+import { AnexoModule } from "../anexo/anexo.module";
 
 @Module({
-  imports: [DatabaseModule, AuthModule, ParametrosModule],
+  imports: [DatabaseModule, AuthModule, ParametrosModule, AnexoModule],
   controllers: [EmailController],
   providers: [...EmailProviders, EmailService, EmailRepository],
   exports: [EmailRepository],
